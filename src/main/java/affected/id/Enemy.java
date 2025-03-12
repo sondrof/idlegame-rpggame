@@ -44,6 +44,7 @@ public class Enemy implements Entity {
     return hp;
   }
 
+
   @Override
   public void setHp(int hp) {
     this.hp = Math.max(hp, 0);

@@ -4,10 +4,15 @@ public class Player implements Entity {
   private String name;
   private CharacterType characterType;
   private int level, xp, hp, armor, mr, ad, ap, dex, cdr, luck, speed;
+  private int mana;
+  private int maxMana;
   private PlayerPos position;
 
   private Hitbox hitbox;
   private Hurtbox hurtbox;
+
+  private Inventory inventory;
+  private Equipment equipment;
 
 
   public Player(String name, CharacterType characterType, int level, int xp, int hp, int armor, int mr, int ad, int ap, int dex, int cdr, int luck, int speed, double startX, double startY) {
@@ -26,12 +31,37 @@ public class Player implements Entity {
     setSpeed(speed);
     this.hitbox = new Hitbox(startX, startY, 32, 32);
     this.hurtbox = new Hurtbox(startX, startY, 32, 32);
-    setPosition(new PlayerPos(startX, startY)); // Using setter for position
+    this.mana = 100;
+    this.maxMana = 100;
+    setPosition(new PlayerPos(startX, startY));// Using setter for position
+
+    inventory = new Inventory();
+    equipment = new Equipment();
+  }
+
+  public Inventory getInventory() {
+    return inventory;
+  }
+
+  public Equipment getEquipment() {
+    return equipment;
   }
 
   @Override
   public String getName() {
     return name;
+  }
+
+  public void setMana(int mana) {
+    this.mana = Math.max(0, Math.min(mana, maxMana)); // Prevent overfilling
+  }
+
+  public int getMaxMana() {
+    return maxMana;
+  }
+
+  public int getMana() {
+    return mana;
   }
 
   public void setName(String name) {

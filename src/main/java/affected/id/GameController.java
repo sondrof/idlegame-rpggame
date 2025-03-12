@@ -76,4 +76,22 @@ public class GameController {
   public Enemy getEnemy() {
     return enemy;
   }
+
+  public void testInventorySystem() {
+    Item sword = new Item("Iron Sword", Item.ItemType.WEAPON, 0, 0, 10, 0, 0, 0);
+    Item shield = new Item("Wooden Shield", Item.ItemType.SHIELD, 5, 0, 0, 0, 5, 2);
+    Item ring = new Item("Ring of Luck", Item.ItemType.RING, 0, 10, 0, 0, 0, 0);
+
+    player.getInventory().addItem(sword);
+    player.getInventory().addItem(shield);
+    player.getInventory().addItem(ring);
+
+    player.getInventory().printInventory();
+
+    player.getEquipment().equip(sword);
+    player.getEquipment().equip(shield);
+    player.getEquipment().equip(ring);
+
+    player.getEquipment().printEquipment();
+  }
 }

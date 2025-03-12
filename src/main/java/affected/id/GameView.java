@@ -26,7 +26,9 @@ public class GameView extends Application {
 
   @Override
   public void start(Stage stage) {
+
     gameController = new GameController();
+    gameController.testInventorySystem();
 
     canvas = new Canvas(800, 600);
     gc = canvas.getGraphicsContext2D();
@@ -73,23 +75,38 @@ public class GameView extends Application {
   private void render() {
     gc.clearRect(0, 0, 800, 600);
 
-    // Target camera position (centered on player)
+    // Camera offset for positioning
+
     double targetX = gameController.getPlayer().getPosition().getX() - 400;
     double targetY = gameController.getPlayer().getPosition().getY() - 300;
 
-    // Smoothly move camera towards target using lerp
     cameraX += (targetX - cameraX) * cameraLerpFactor;
     cameraY += (targetY - cameraY) * cameraLerpFactor;
 
-    // Render player relative to the camera
+    // Render background (if added later)
+    // gc.drawImage(background, -cameraX, -cameraY);
+
+    // Render entities
     gc.drawImage(playerImage, gameController.getPlayer().getPosition().getX() - cameraX,
         gameController.getPlayer().getPosition().getY() - cameraY);
 
-    // Render enemy relative to the camera
     gc.drawImage(enemyImage, gameController.getEnemy().getPosition().getX() - cameraX,
         gameController.getEnemy().getPosition().getY() - cameraY);
 
-    // Debug Mode (Show Hitboxes)
+    // Render UI Elements (Health & Mana Bars)
+    UIRenderer.drawHealthBar(gc, gameController.getPlayer().getPosition().getX() - cameraX - 20,
+        gameController.getPlayer().getPosition().getY() - cameraY - 20,
+        gameController.getPlayer().getHp(), 100);
+
+    UIRenderer.drawManaBar(gc, gameController.getPlayer().getPosition().getX() - cameraX - 20,
+        gameController.getPlayer().getPosition().getY() - cameraY - 10,
+        gameController.getPlayer().getMana(), 100);
+
+    UIRenderer.drawHealthBar(gc, gameController.getEnemy().getPosition().getX() - cameraX - 20,
+        gameController.getEnemy().getPosition().getY() - cameraY - 20,
+        gameController.getEnemy().getHp(), 80);
+
+    // Debug Mode (Hitboxes)
     if (debugMode) {
       gameController.getPlayer().getHitbox().render(gc, cameraX, cameraY);
       gameController.getEnemy().getHurtbox().render(gc, cameraX, cameraY);
