@@ -18,10 +18,11 @@ public class Hitbox {
     this.y = y;
   }
 
-  public void render(GraphicsContext gc) {
+  public void render(GraphicsContext gc, double cameraX, double cameraY) {
     gc.setStroke(Color.RED);
-    gc.strokeRect(x, y, width, height);
+    gc.strokeRect(x - cameraX, y - cameraY, width, height);
   }
+
 
   public double getX() { return x; }
   public double getY() { return y; }
